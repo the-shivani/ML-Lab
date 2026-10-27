@@ -1,0 +1,71 @@
+﻿# ------------------------------------------------------------
+# 11. FIND ACTUAL BEST MODEL
+# ------------------------------------------------------------
+
+print("\nFinding actual best model for each parameter...")
+
+error_wide_targets = df.pivot_table(
+    index=["location", "datetime"],
+    columns="model",
+    values=[
+        "temperature_error",
+        "humidity_error",
+        "precipitation_error",
+        "wind_speed_error",
+        "pressure_error"
+    ],
+    aggfunc="first"
+)
+
+# Convert MultiIndex columns to simple names
+error_wide_targets.columns = [
+    f"{parameter}_{model}"
+    for parameter, model in error_wide_targets.columns
+]
+
+error_wide_targets = error_wide_targets.reset_index()
+
+for parameter in parameters.keys():
+
+    error_columns = [
+        f"{parameter}_error_{model}"
+        for model in model_names
+    ]
+
+    # Keep only columns that exist
+    available = [
+        col for col in error_columns
+        if col in error_wide_targets.columns
+    ]
+
+    # Find model with minimum error
+    error_matrix = error_wide_targets[
+        ["location", "datetime"] + available
+    ].copy()
+
+    error_only = error_matrix[available]
+
+    # Convert names back to model names
+    error_only.columns = [
+        col.replace(f"{parameter}_error_", "")
+        for col in error_only.columns
+    ]
+
+    error_matrix[f"best_{parameter}_model"] = (
+        error_only.idxmin(axis=1)
+    )
+
+    # Merge target using location + datetime
+    training = training.merge(
+        error_matrix[
+            [
+                "location",
+                "datetime",
+                f"best_{parameter}_model"
+            ]
+        ],
+        on=["location", "datetime"],
+        how="left",
+        validate="one_to_one"
+    )
+
