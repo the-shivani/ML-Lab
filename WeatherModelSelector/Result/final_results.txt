@@ -1,0 +1,143 @@
+WEATHER MODEL SELECTOR
+======================
+
+Project:
+Machine Learning Based Weather Model Selection
+
+Objective:
+To build a machine learning system that selects the most suitable
+numerical weather prediction model for a given location and time.
+
+Weather Models:
+1. ECMWF
+2. GFS
+3. ICON
+4. GEM
+
+Reference Dataset:
+ERA5 reanalysis data from Open-Meteo.
+
+Historical Period:
+1 September 2026 to 30 September 2026
+
+Locations:
+31 locations
+
+Main Weather Variable:
+Temperature
+
+Machine Learning Algorithm:
+Random Forest Classifier
+
+Training Samples:
+17,825
+
+Testing Samples:
+4,464
+
+Baseline Accuracy:
+39.22%
+
+Final ML Accuracy:
+57.66%
+
+Macro F1 Score:
+0.5584
+
+Improvement:
+18.44 percentage points over the baseline
+
+Train Period:
+1 September 2026 to 24 September 2026
+
+Test Period:
+25 September 2026 to 30 September 2026
+
+
+MODEL-WISE PERFORMANCE
+======================
+
+ECMWF
+Precision: 0.66
+Recall:    0.62
+F1 Score:  0.64
+
+GEM
+Precision: 0.45
+Recall:    0.54
+F1 Score:  0.49
+
+GFS
+Precision: 0.49
+Recall:    0.55
+F1 Score:  0.52
+
+ICON
+Precision: 0.62
+Recall:    0.56
+F1 Score:  0.59
+
+
+IMPORTANT FEATURES
+==================
+
+The most important features were recent model-performance
+features.
+
+Top features:
+
+1. GEM previous error
+2. GFS previous error
+3. ICON previous error
+4. ECMWF previous error
+5. GFS 3-hour rolling error
+
+
+METHODOLOGY
+===========
+
+Historical forecasts from ECMWF, GFS, ICON and GEM were collected.
+
+ERA5 reanalysis data was used as the reference dataset.
+
+Absolute temperature errors were calculated for every model.
+
+For every location and timestamp, the model with the lowest
+temperature error was selected as the best model.
+
+Past model performance was represented using:
+
+- Previous-hour error
+- 3-hour rolling error
+- 6-hour rolling error
+- 12-hour rolling error
+
+Additional features included:
+
+- Latitude
+- Longitude
+- Hour
+- Day
+- Day of week
+- Month
+- Current forecast temperatures
+- Forecast mean
+- Forecast spread
+
+A Random Forest classifier was trained to predict the best
+weather model.
+
+
+FINAL RESULT
+============
+
+The final leakage-safe validation achieved:
+
+Accuracy: 57.66%
+Macro F1: 0.5584
+
+The ML system improved accuracy from 39.22% baseline to
+57.66%, giving an improvement of 18.44 percentage points.
+
+ERA5 should be described as a reference/reanalysis dataset,
+not as direct ground-truth station observations.

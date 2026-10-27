@@ -1,0 +1,6 @@
+parameter,train_rows,validation_rows,test_rows,threshold,ml_mae,ecmwf_mae,improvement_percent
+temperature,185907,23064,45384,0.1,0.7504,0.7636,1.73
+humidity,191766,23064,45384,0.5,4.2902,4.3155,0.59
+precipitation,200725,23064,45384,0.3,0.249,0.3354,25.76
+wind_speed,194959,23064,45384,0.5,1.9869,2.0435,2.77
+pressure,194959,23064,45384,0.0,0.4946,0.5474,9.64
